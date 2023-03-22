@@ -1,0 +1,20 @@
+from pytube import YouTube
+import os
+
+link = input("Please enter a YouTube link: ")
+yt = YouTube(link)
+
+print("Title: ", yt.title)
+print(f"View: {yt.views}")
+
+yd = yt.streams.get_highest_resolution()
+audio = yt.streams.filter(only_audio=True).first()
+
+output = input("Where do you want to store this video? ")
+out_file = audio.download(output_path= output)
+
+base, ext = os.path.splitext(out_file)
+new_file = base + '.mp3'
+os.rename(out_file, new_file)
+
+print(f"{yt.title} has been successfully downloaded.")
